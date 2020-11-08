@@ -21,4 +21,20 @@ describe('Testing user routes', () => {
 
     expect(token).toHaveProperty('id');
   });
+
+  it('Should be able to login user and return jwt token', async () => {
+    const response = await request(app)
+      .post('/clients/login')
+      .send({
+        email: 'brunohsantos@icloud.com',
+        password: '123456',
+      });
+
+    expect(response.status).toBe(200);
+    expect(response.body).toHaveProperty('token');
+
+    const token = verify(response.body.token, secret);
+
+    expect(token).toHaveProperty('id');
+  });
 });

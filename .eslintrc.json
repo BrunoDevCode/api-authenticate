@@ -27,7 +27,10 @@
     ],
     "no-console": "off",
     "quotes": [2, "single", { "avoidEscape": true }],
-    "linebreak-style": "off"
+    "linebreak-style": "off",
+    "class-methods-use-this": "off",
+    "import/prefer-default-export": "off",
+    "consistent-return": "off"
   },
   "settings": {
     "import/resolver": {
