@@ -25,7 +25,9 @@
         "json": "never"
       }
     ],
-    "no-console": "off"
+    "no-console": "off",
+    "quotes": [2, "single", { "avoidEscape": true }],
+    "linebreak-style": "off"
   },
   "settings": {
     "import/resolver": {
