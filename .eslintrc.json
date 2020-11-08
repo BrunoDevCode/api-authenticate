@@ -16,7 +16,6 @@
     "@typescript-eslint"
   ],
   "rules": {
-    // "import/no-unresolved": 0,
     "import/extensions": [
       "error",
       "ignorePackages",
