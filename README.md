@@ -2,22 +2,24 @@
 
 ## Descrição
 
-<p align='justify'>O intuito do projeto é aprender como funciona a autenticação de users usando o jwt, aproveitei também para tentar usar o Typeorm,
-tentei adicionar testes também mas junto com o ORM não estão funcionando.</p>
+<p align='justify'>O intuito do projeto é aprender como funciona a autenticação de users usando o jwt, usei o MongoDB com sua cloud e também adicionei o typegoose para melhorar as tipagens dos Models.</p>
 
 ## Rotas
 
-* Ambas rotas devolvem pelo body uma chave token que no verify contem o ID do user e expiração em 1 dia.
-- [x] /clients/register: Deve receber pelo body { name, email, password }. :heavy_check_mark:
-- [x] /clients/login: Deve receber pelo body { email, password }. :heavy_check_mark:
+* Ambas rotas devolvem pelo body uma chave token que no verify contem o _id do user e expiração em 1 dia.
+* [x] /clients/register: Deve receber pelo body { name, email, password }.
+* [x] /clients/login: Deve receber pelo body { email, password }.
+* [] token middleware: Conferir o vencimento do token e se contem o id do user.
+* [] /clients/forgot: Manda em email para o user com um token de 120 minutos.
 
 ## Dependencias e Libs :book:
 
-- [Express](http://expressjs.com/pt-br/)
-- [Typeorm](https://typeorm.io/#/)
-- [JWT](https://www.npmjs.com/package/jsonwebtoken)
-- [Bcrypt](https://www.npmjs.com/package/bcryptjs)
-- [Jest](https://jestjs.io/en/)
+* [Express](http://expressjs.com/pt-br/)
+* [Mongoose](https://mongoosejs.com/)
+* [Typegoose](https://typegoose.github.io/typegoose/)
+* [JWT](https://www.npmjs.com/package/jsonwebtoken)
+* [Bcrypt](https://www.npmjs.com/package/bcryptjs)
+* [Jest](https://jestjs.io/en/)
 
 ## Como rodar o projeto :arrow_forward:
 
@@ -48,6 +50,35 @@ Execute a aplicação no modo desenvolvedor:
   // yarn test com JestJS
   yarn test
 ```
+
 É possivel acessar a api pelo http://localhost:3000
 
-:warning: Os testes no momento não estão funcionando. Motivo: Adoraria descobrir
+## Issues Corrigidas
+
+<p>
+Nos tests com JEST houve um warning:
+You are trying to 'import' a file after the Jest environment has been torn down.
+
+Que foi corrigido adicionando no jest.config.js:
+
+```
+  testMatch: [ "**/tests/*.+(ts|tsx|js)" ];
+```
+
+</p>
+
+<p>
+  Os problemas TS2532 e TS2531 foram corrigidos adicionando "!" nos controllers.
+  Example.:
+
+
+
+```
+    Error:
+    const _id = findUser._id as number;
+
+    Sucessful:
+    const _id = finduser!._id as number;
+  ```
+
+</p>

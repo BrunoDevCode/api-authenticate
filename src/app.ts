@@ -1,11 +1,15 @@
-import 'reflect-metadata';
 import express, {
   Request, Response, NextFunction,
 } from 'express';
 import cors from 'cors';
+import { connect } from 'mongoose';
 import routes from './routes';
+import { MONGO_URL } from './configs/env';
 
-import './database/connection';
+connect(MONGO_URL, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 
 const app = express();
 

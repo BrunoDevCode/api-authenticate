@@ -1,15 +1,12 @@
 import { NextFunction, Request, Response } from 'express';
-import { getRepository } from 'typeorm';
-import { hash, compare } from 'bcryptjs';
+import { compare } from 'bcryptjs';
 import { sign } from 'jsonwebtoken';
-import Users, { UsersProps } from '../database/models/Users';
+import { User } from '../models/Users';
 // eslint-disable-next-line import/extensions
 import { secret } from '../configs/auth.json';
 
 export default class UserController {
   async index(request: Request, response: Response, next: NextFunction) {
-    const userRepo = getRepository(Users);
-
     const { email, password } = request.body;
 
     if (!email || !password) {
@@ -19,7 +16,7 @@ export default class UserController {
     }
 
     try {
-      const findUser = <UsersProps> await userRepo.findOne({ where: { email } });
+      const findUser = await User.findOne({ email }).select('+password');
 
       if (!findUser) {
         const error = new Error('User not found!');
@@ -27,17 +24,17 @@ export default class UserController {
         next(error);
       }
 
-      if (!await compare(password, findUser.password)) {
+      if (!await compare(password, findUser!.password)) {
         const error = new Error('Invalid Password!');
         error.status = 401;
         next(error);
       }
 
-      findUser.password = '';
+      findUser!.password = '';
 
-      const id = findUser.id as number;
+      const _id = findUser!._id as number;
 
-      const token = sign({ id }, secret, { expiresIn: 86400 });
+      const token = sign({ _id }, secret, { expiresIn: 86400 });
 
       return response.status(200).json({ token });
     } catch (error) {
@@ -46,8 +43,6 @@ export default class UserController {
   }
 
   async store(request: Request, response: Response, next: NextFunction) {
-    const userRepo = getRepository(Users);
-
     const { name, email, password } = request.body;
 
     if (!name || !email || !password) {
@@ -57,23 +52,19 @@ export default class UserController {
     }
 
     try {
-      if (await userRepo.findOne({ where: { email } })) {
+      if (await User.findOne({ where: { email } })) {
         const error = new Error('This e-mail is already exists!');
         error.status = 409;
         next(error);
       }
 
-      const hashedPassword = await hash(password, 10);
+      const { _id } = await User.create({
+        name,
+        email,
+        password,
+      });
 
-      const user = new Users();
-
-      user.name = name;
-      user.email = email;
-      user.password = hashedPassword;
-
-      const { id } = await userRepo.save(user);
-
-      const token = sign({ id }, secret, { expiresIn: 86400 });
+      const token = sign({ _id }, secret, { expiresIn: 86400 });
 
       return response.status(201).json({ token });
     } catch (error) {
