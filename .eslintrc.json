@@ -29,7 +29,10 @@
     "linebreak-style": "off",
     "class-methods-use-this": "off",
     "import/prefer-default-export": "off",
-    "consistent-return": "off"
+    "consistent-return": "off",
+    "func-names": "off",
+    "no-use-before-define": "warn",
+    "no-underscore-dangle": "off"
   },
   "settings": {
     "import/resolver": {

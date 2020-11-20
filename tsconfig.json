@@ -14,11 +14,15 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "removeComments": true
   },
   "include": [
     "./src/**/*",
     "jest.config.js",
-    "./tests/**/*"
+    "./tests/*"
+  ],
+  "exclude": [
+    "./node_modules"
   ]
 }
