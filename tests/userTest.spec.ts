@@ -8,7 +8,7 @@ import { User } from '../src/models/Users';
 
 describe('Testing user routes', () => {
   beforeAll(async () => {
-    await User.deleteOne({ name: 'Bruno Henrique' });
+    await User.deleteOne({ email: 'brunohsantos@icloud.com' });
   });
 
   afterAll(async () => {
@@ -24,7 +24,7 @@ describe('Testing user routes', () => {
         password: '123456',
       });
 
-    if (response.status !== 201) console.log(response.error);
+    if (response.status !== 201) console.table(response.error);
 
     expect(response.status).toBe(201);
 
@@ -43,7 +43,7 @@ describe('Testing user routes', () => {
         password: '123456',
       });
 
-    if (response.status !== 200) console.log(response.error);
+    if (response.status !== 200) console.table(response.error);
 
     expect(response.status).toBe(200);
 
