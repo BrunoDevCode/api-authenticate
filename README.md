@@ -4,13 +4,17 @@
 
 <p align='justify'>O intuito do projeto é aprender como funciona a autenticação de users usando o jwt, usei o MongoDB com sua cloud e também adicionei o typegoose para melhorar as tipagens dos Models.</p>
 
-## Rotas
+## Funcionalidades:
 
+#### Rotas: 
 * Ambas rotas devolvem pelo body uma chave token que no verify contem o _id do user e expiração em 1 dia.
 * [x] /clients/register: Deve receber pelo body { name, email, password }.
 * [x] /clients/login: Deve receber pelo body { email, password }.
-* [] token middleware: Conferir o vencimento do token e se contem o id do user.
-* [] /clients/forgot: Manda em email para o user com um token de 120 minutos.
+* [x] /projects/create: Cria os projetos somente se o middleware do token passar.
+* [] /clients/forgot: Manda em email para o user um token para fazer a troca de senha.
+
+#### Middlewares: 
+* [x] token middleware: Conferir se o token existe e se contem o id do user.
 
 ## Dependencias e Libs :book:
 
@@ -51,22 +55,9 @@ Execute a aplicação no modo desenvolvedor:
   yarn test
 ```
 
-É possivel acessar a api pelo http://localhost:3000
+É possivel acessar a api pela url http://localhost:3000
 
 ## Issues Corrigidas
-
-<p>
-Nos tests com JEST houve um warning:
-You are trying to 'import' a file after the Jest environment has been torn down.
-
-Que foi corrigido adicionando no jest.config.js:
-
-```
-  testMatch: [ "**/tests/*.+(ts|tsx|js)" ];
-```
-
-</p>
-
 <p>
   Os problemas TS2532 e TS2531 foram corrigidos adicionando "!" nos controllers.
   Example.:
