@@ -34,7 +34,7 @@ export default class UserController {
 
       const _id = findUser!._id as number;
 
-      const token = sign({ _id }, secret, { expiresIn: 86400 });
+      const token = sign({ _id }, secret, { expiresIn: '15min' });
 
       return response.status(200).json({ token });
     } catch (error) {
@@ -64,7 +64,7 @@ export default class UserController {
         password,
       });
 
-      const token = sign({ _id }, secret, { expiresIn: 86400 });
+      const token = sign({ _id }, secret, { expiresIn: '15min' });
 
       return response.status(201).json({ token });
     } catch (error) {
